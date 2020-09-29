@@ -109,7 +109,15 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        
+        index = self.hash_index(key)
+
+        node = self.buckets[index]
+
+        node.value = None
+
+        return node.value
+
+
         
 
 
@@ -126,8 +134,16 @@ class HashTable:
         index = self.hash_index(key)
 
         node = self.buckets[index]
+        
+        while node is not None and node.key != key:
+            node = node.next
 
-        return node.value
+        if node is None:
+
+            return None
+        else:
+
+            return node.value
 
 
     def resize(self, new_capacity):

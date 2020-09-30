@@ -22,7 +22,7 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code 
-        self.capacity = MIN_CAPACITY
+        self.capacity = capacity
         self.size = 0
         self.buckets = [None] * self.capacity
 
@@ -38,7 +38,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # return self.capacity
+        # return len(self.capacity)
 
 
     def get_load_factor(self):
@@ -48,6 +48,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.size / len(self.capacity)
 
 
     def fnv1(self, key):
@@ -94,11 +95,32 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.size += 1
+        
 
         index = self.hash_index(key)
 
-        self.buckets[index] = HashTableEntry(key, value)
+        node = self.buckets[index]
+
+        # new_node = HashTableEntry(key, value)
+
+        # self.buckets[index] = HashTableEntry(key, value)
+        if node is None:
+            self.buckets[index] = HashTableEntry(key, value)
+            self.size += 1
+
+        prev = node
+        # breakpoint()
+        while node is not None:
+            if node.key == key:
+                node.value = value
+
+            prev = node
+            node = node.next
+        # Add a new node at the end of the list with provided key/value
+        # breakpoint()
+            prev.next = HashTableEntry(key, value)
+            self.size += 1
+
 
     def delete(self, key):
         """
@@ -109,16 +131,26 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        
+
         index = self.hash_index(key)
 
         node = self.buckets[index]
 
-        node.value = None
+        if node:
+            last_node = None
+            while node:
+                if node.key == key:
+                    if last_node:
+                        last_node.next = node.next
+                    else:
+                        self.buckets[index] = node.next
+                last_node = node
+                node = node.next
+                self.size -= 1
 
-        return node.value
 
-
-        
+        # return node.value
 
 
     def get(self, key):
@@ -154,7 +186,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        old_capacity = MIN_CAPACITY
+        if self.size / old_capacity >= 0.70:
+            return new_capacity
 
 
 if __name__ == "__main__":

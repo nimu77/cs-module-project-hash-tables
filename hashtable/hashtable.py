@@ -38,7 +38,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # return len(self.capacity)
+        return self.capacity
 
 
     def get_load_factor(self):
@@ -48,7 +48,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        return self.size / len(self.capacity)
+        return self.size / self.capacity
 
 
     def fnv1(self, key):
@@ -186,10 +186,28 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        old_capacity = MIN_CAPACITY
-        if self.size / old_capacity >= 0.70:
-            return new_capacity
+        # if self.get_load_factor() > 0.7:
+            
+        #     # self.capacity = new_capacity
+        #     new_buckets = [None] * new_capacity
 
+        # for i in range(self.capacity):
+        #     if self.buckets[i] != None:
+        #         self.put(self.get[i], self.get())
+        # self.buckets = new_buckets
+        # self.capacity = new_capacity
+        old_storage = self.buckets
+        self.capacity = new_capacity
+        self.buckets = [None] * self.capacity
+        # each i if not none is a linked list
+        for i in old_storage:
+            if i != None:
+                # if you only have a node in there, cur = i
+                # if you have a linked list class, cur = i.head
+                cur = i
+                while cur is not None:
+                    self.put(cur.key, cur.value)
+                    cur = cur.next
 
 if __name__ == "__main__":
     ht = HashTable(8)

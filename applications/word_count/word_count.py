@@ -1,5 +1,23 @@
 def word_count(s):
     # Your code here
+    d = {}
+
+    
+    bad_chars = '":;,.-+=/\\|[]{}()*^&\`\"\t\r\n\f\b'
+
+    for c in bad_chars:
+        s = s.replace(c, '')
+
+    print(s)
+    for i in s.lower().split():
+
+        if i not in d:
+            d[i] = 1
+
+        else:
+            d[i] +=1
+
+    return d
 
 
 
